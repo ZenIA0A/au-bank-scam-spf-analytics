@@ -1,0 +1,61 @@
+{
+  "q1": {
+    "combined_loss_2025": 2180000000.0,
+    "investment_share_2025": 0.3835622710622711,
+    "afcx_reports_with_loss_2025": 199666,
+    "afcx_mean_loss_2025": 4218.544970100067,
+    "crypto_share_scamwatch_payment_loss": 0.458948164964056
+  },
+  "q2": {
+    "all_complaints_change": 0.2179692129626709,
+    "scam_fraud_change": -0.1040203687733563,
+    "scam_fraud_fy26": 178091.0,
+    "bank_share_of_scam_fraud_fy26": 0.7921905093463454
+  },
+  "q3": {
+    "max_half_on_half_share_swing": {
+      "ANZ": 0.82,
+      "CBA": 0.07,
+      "NAB": 0.22,
+      "Westpac": 0.02
+    },
+    "westpac_victim_of_scam_share_2026H1": 0.01592990840302668
+  },
+  "q4": {
+    "idr_scam_remedies_paid_fy26": 39732407.18,
+    "idr_scam_remedies_count_fy26": 20141.0,
+    "idr_scam_avg_remedy_fy26": 1972.7127342237227,
+    "paid_vs_afcx_loss_ratio": 0.047171325157307376,
+    "paid_change_2023H2_to_2026H1": -0.46041199369567654
+  },
+  "q5": {
+    "n_firm_halves": 231,
+    "n_firms": 54,
+    "median_diff_pp": -0.3377777777777702,
+    "mean_diff_pp": -1.3552681514108846,
+    "share_gap_worse_than_5pp": 0.1038961038961039,
+    "share_scam_faster": 0.2554112554112554,
+    "wilcoxon_p": 9.061287321191289e-12
+  },
+  "q6": {
+    "escalation": {
+      "Revolut": 0.2155,
+      "Bank Australia": 0.033,
+      "ING": 0.0293,
+      "CBA": 0.0245,
+      "AMP Bank": 0.024,
+      "Westpac": 0.0232,
+      "NAB": 0.0179,
+      "HSBC": 0.0164,
+      "Macquarie": 0.0152,
+      "Bendigo": 0.0149,
+      "BOQ": 0.0146,
+      "ANZ": 0.0115,
+      "Norfina (ex-Suncorp Bank)": 0.0093
+    },
+    "major_bank_escalation": 0.018628879687132963,
+    "spearman_p30_vs_escalation_rho": -0.1258741258741259,
+    "spearman_p": 0.696683109395766,
+    "n_banks_in_test": 12
+  }
+}

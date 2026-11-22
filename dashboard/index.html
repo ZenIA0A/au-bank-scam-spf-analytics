@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPF Scam Reimbursement Readiness</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<style>
+:root{
+  /* layout: one reading column of sections; dashboard grids inside each section */
+  --paper:#f7f8f9; --card:#ffffff; --ink:#14181d; --ink-2:#4f5761; --line:#e1e4e8;
+  --accent:#2a78d6; --accent-2:#eb6834; --muted:#b4b9c0;
+  --display:"IBM Plex Serif", Georgia, serif; --body:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#111418; --card:#1a1e24; --ink:#e9ecef; --ink-2:#a6aeb8; --line:#2c323a;
+  --accent:#4f93e6; --accent-2:#f08050; --muted:#59616b; color-scheme: dark; } }
+:root[data-theme="dark"]{ --paper:#111418; --card:#1a1e24; --ink:#e9ecef; --ink-2:#a6aeb8; --line:#2c323a;
+  --accent:#4f93e6; --accent-2:#f08050; --muted:#59616b; color-scheme: dark; }
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 20px 60px;display:flex;flex-direction:column;gap:28px}
+h1{font-family:var(--display);font-size:clamp(24px,3.4vw,34px);line-height:1.2;margin:0;text-wrap:balance;font-weight:600}
+h2{font-family:var(--display);font-size:22px;margin:0 0 4px;text-wrap:balance;font-weight:600}
+h3{font-size:14px;margin:0 0 2px;font-weight:600}
+p{margin:0;max-width:72ch}
+.lede{color:var(--ink-2);font-size:16px}
+.meta{color:var(--ink-2);font-size:13px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:2px}
+.tile .v{font-size:26px;font-weight:600;font-variant-numeric:tabular-nums}
+.tile .l{font-size:13px;color:var(--ink-2)}
+.tile.key{border-left:4px solid var(--accent)}
+section{display:flex;flex-direction:column;gap:14px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.card .sub{font-size:13px;color:var(--ink-2)}
+.chart{width:100%;height:300px}
+.src{font-size:12px;color:var(--ink-2)}
+.model{display:grid;grid-template-columns:minmax(260px,320px) 1fr;gap:14px}
+.controls{display:flex;flex-direction:column;gap:12px}
+label{font-size:13px;font-weight:500;display:flex;flex-direction:column;gap:4px}
+label span.val{font-weight:400;color:var(--ink-2);font-variant-numeric:tabular-nums}
+select,input[type=range]{width:100%;accent-color:var(--accent)}
+select{font:inherit;padding:6px 8px;border-radius:6px;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+.pill{display:inline-block;font-size:12px;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--ink-2)}
+.pill.top{border-color:var(--accent);color:var(--accent);font-weight:600}
+table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;color:var(--ink-2);font-weight:600}
+td.num,th.num{text-align:right}
+.tablewrap{overflow-x:auto}
+.bar{height:8px;background:var(--accent);border-radius:4px}
+ol.recs{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;max-width:80ch}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:760px){.model{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header style="display:flex;flex-direction:column;gap:10px">
+  <div class="meta">Independent analysis · public data only · James Lai, Master of Business Analytics (Macquarie) · November 2026</div>
+  <h1>Scams Prevention Framework: what auto-reimbursement will cost banks, and where to act first</h1>
+  <p class="lede">From 31 March 2027 Australian banks become legally responsible for preventing and responding to scams. Treasury also proposes that verified scam losses under $3,000 be refunded automatically. This page sizes that cost, checks whether banks' scam data can support it, and ranks the controls that reduce the losses refunds do not cover.</p>
+</header>
+
+<div class="tiles" id="tiles"></div>
+
+<section>
+  <h2>1. The problem: where scam losses come from</h2>
+  <div class="grid2">
+    <div class="card"><h3>Reported scam losses, Australia</h3><div class="sub">Combined losses reported to five agencies, $ billion</div><div class="chart" id="c_year"></div><div class="src">NASC Targeting Scams Report 2025</div></div>
+    <div class="card"><h3>2025 losses by scam type</h3><div class="sub">Investment scams are 38% of all losses, $ million</div><div class="chart" id="c_type"></div><div class="src">NASC Targeting Scams Report 2025, combined data</div></div>
+  </div>
+</section>
+
+<section>
+  <h2>2. Today: how banks handle scam complaints</h2>
+  <div class="grid2">
+    <div class="card"><h3>Scam complaints have not grown with other complaints</h3><div class="sub">IDR complaints, index 2023 H2 = 100, all firms reporting to ASIC</div><div class="chart" id="c_trend"></div><div class="src">ASIC IDR data file, 16 Nov 2026</div></div>
+    <div class="card"><h3>Money returned to scam & fraud complainants is falling</h3><div class="sub">Monetary remedies at IDR, $ million per half-year</div><div class="chart" id="c_rem"></div><div class="src">ASIC IDR, count × average remedy; excludes refunds made outside complaints</div></div>
+  </div>
+  <div class="card"><h3>The same scam complaint is labelled differently at each major bank, and the labels change over time</h3><div class="sub">Share of each bank's Scams/fraud complaints by ASIC issue code. A common taxonomy is needed before the $3,000 rule can run.</div><div class="chart" id="c_mix" style="height:330px"></div><div class="src">ASIC IDR. ANZ moved most scam complaints to "Other" in 2025 H1; Westpac uses "Other" for over 98%.</div></div>
+  <div class="card"><h3>How many complaints reach AFCA? FY2026</h3><div class="sub">AFCA complaints received per 100 IDR complaints in the same 12 months. Blue = major banks; Revolut (21.6%) is cut to fit. Across 12 banks closure speed does not predict escalation (Spearman ρ = −0.13, p = 0.70).</div><div class="chart" id="c_esc" style="height:380px"></div><div class="src">AFCA Datacube (Compare firms, Bank) and ASIC IDR, licence level</div></div>
+</section>
+
+<section>
+  <h2>3. The cost of auto-refunding losses under a threshold</h2>
+  <p class="meta">Monte Carlo model, first full year FY2028. Base inputs are real data (199,666 bank-reported scam losses, mean $4,219; $39.7m remedies paid today; AFCA fees). The ranges below are assumptions: change them to see how the answer moves. 10,000 simulations run in your browser.</p>
+  <div class="model">
+    <div class="card controls">
+      <label for="scope">Scope<select id="scope"></select></label>
+      <label for="alloc">Allocate bank volume by<select id="alloc"><option value="scam">Share of scam/fraud complaints</option><option value="all">Share of all complaints</option></select></label>
+      <label for="thr">Auto-refund threshold <span class="val" id="thr_v"></span><input type="range" id="thr" min="500" max="10000" step="500" value="3000"></label>
+      <label for="g">Annual growth in scam losses (most likely value; range −12 to +13 pp around it) <span class="val" id="g_v"></span><input type="range" id="g" min="-10" max="20" step="1" value="2"></label>
+      <label for="u">Extra claims caused by auto-refunds (max) <span class="val" id="u_v"></span><input type="range" id="u" min="1" max="2" step="0.05" value="1.5"></label>
+      <label for="v">Share of claims verified (mode) <span class="val" id="v_v"></span><input type="range" id="v" min="50" max="95" step="5" value="80"></label>
+      <label for="m">Median scam loss (upper end; lower end $400) <span class="val" id="m_v"></span><input type="range" id="m" min="500" max="2000" step="100" value="1000"></label>
+      <label for="h">Investigation hours avoided per refund (mode) <span class="val" id="h_v"></span><input type="range" id="h" min="1" max="6" step="0.5" value="2.5"></label>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;min-width:0">
+      <div class="tiles" id="mtiles"></div>
+      <div class="card"><h3>Distribution of net extra cost</h3><div class="sub">Extra refunds − remedies already paid today − investigation time avoided − AFCA fees avoided</div><div class="chart" id="c_hist"></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>4. Where to act first</h2>
+  <p class="meta">Auto-refunds cover most victims but little of the money, so prevention has to cut the large losses. Each control targets one scam-type loss pool (NASC 2025, bank-reported share). Effectiveness is an assumed range sampled 20,000 times; effort and friction are 1–5 judgements.</p>
+  <div class="card tablewrap"><table id="ctab"><thead><tr><th>Control</th><th>Loss pool</th><th class="num">Avoided losses, $m/yr (P10–P50–P90)</th><th></th><th class="num">Effort</th><th class="num">Friction</th><th class="num">P(top 3)</th></tr></thead><tbody></tbody></table></div>
+</section>
+
+<section>
+  <h2>5. Recommendations</h2>
+  <div class="card">
+  <ol class="recs">
+    <li><b>Adopt one scam taxonomy and data model</b> (scam type, channel, payment rail, loss, recovery, refund) across fraud operations, IDR and SPF reporting, by February 2027. Owner: Data & Analytics.</li>
+    <li><b>Build a straight-through "verify and refund" path for claims under $3,000</b> and keep full investigation for larger claims, by March 2027. Owner: Fraud & Scams Operations with Complaints.</li>
+    <li><b>Provision at P50 and stress-test at P90</b>, then re-run the model every quarter with real claims. The biggest unknowns are growth, the median loss, the verification rate and extra claims. Owner: Finance.</li>
+    <li><b>Pilot holds on first-time high-risk payments with a randomised hold-out</b> (about 14,600 flagged payments per arm to detect a 30% fall at a 1% baseline), then roll out Confirmation of Payee. Owner: Payments product.</li>
+  </ol>
+  </div>
+  <p class="src">Sources: ASIC Internal dispute resolution data file (published 16 Nov 2026); AFCA Datacube, Compare firms (accessed 22 Nov 2026); AFCA Complaint Fee Guide; National Anti-Scam Centre, Targeting Scams Report 2025; Treasury SPF IDR position paper (May 2026). Limits: public, firm-level data; complaint counts are "received or open" and self-reported; control effectiveness is assumed. Not affiliated with any bank or regulator.</p>
+</section>
+</div>
+
+<script>
+const D = {"years": {"year": [2021, 2022, 2023, 2024, 2025], "loss": [1800000000.0, 3100000000.0, 2700000000.0, 2030000000.0, 2180000000.0]}, "types": {"type": ["Investment", "Payment redirection", "Romance", "Phishing", "Remote access", "Other"], "loss_2025": [837700000.0, 166800000.0, 139900000.0, 97600000.0, 69900000.0, 872100000.0]}, "pay": {"m": ["Cryptocurrency/DCE", "Bank transfer", "Cash", "Credit card", "Other gift card"], "loss": [121300000.0, 118100000.0, 10000000.0, 9100000.0, 5800000.0]}, "trend": {"half": ["2023 HY2", "2024 HY1", "2024 HY2", "2025 HY1", "2025 HY2", "2026 HY1"], "scam_fraud_idx": [100.0, 84.61356823128413, 87.90193421214735, 82.76970144963246, 93.23949735123814, 89.59796312266437], "all_complaints_idx": [100.0, 99.96000317955796, 111.18443160564732, 118.94225863853517, 116.04398220288692, 121.79692129626709], "scam_fraud": [97404.0, 82417.0, 85620.0, 80621.0, 90819.0, 87272.0], "all_complaints": [2377689.0, 2376738.0, 2643620.0, 2828077.0, 2759165.0, 2895952.0]}, "mix": [{"bank": "ANZ", "half": "2023 HY2", "Fraud/forgery by a third party": 0.4632858546168958, "Fraud/forgery by financial firm": 0.0, "Other scam/fraud-related issues": 0.3634577603143418, "Victim of scam": 0.1732563850687623}, {"bank": "ANZ", "half": "2024 HY1", "Fraud/forgery by a third party": 0.6891317547055252, "Fraud/forgery by financial firm": 0.0, "Other scam/fraud-related issues": 0.0007285974499089, "Victim of scam": 0.3101396478445659}, {"bank": "ANZ", "half": "2024 HY2", "Fraud/forgery by a third party": 0.6772573764664059, "Fraud/forgery by financial firm": 0.0, "Other scam/fraud-related issues": 0.0215072875933167, "Victim of scam": 0.3012353359402773}, {"bank": "ANZ", "half": "2025 HY1", "Fraud/forgery by a third party": 0.1082616784834313, "Fraud/forgery by financial firm": 0.0, "Other scam/fraud-related issues": 0.8442198421079097, "Victim of scam": 0.0475184794086589}, {"bank": "ANZ", "half": "2025 HY2", "Fraud/forgery by a third party": 0.0, "Fraud/forgery by financial firm": 0.0, "Other scam/fraud-related issues": 0.9618946595406144, "Victim of scam": 0.0381053404593855}, {"bank": "ANZ", "half": "2026 HY1", "Fraud/forgery by a third party": 0.0, "Fraud/forgery by financial firm": 0.0, "Other scam/fraud-related issues": 0.9518676733558514, "Victim of scam": 0.0481323266441486}, {"bank": "CBA", "half": "2023 HY2", "Fraud/forgery by a third party": 0.0182210753594186, "Fraud/forgery by financial firm": 0.0029490757807151, "Other scam/fraud-related issues": 0.4058665543209226, "Victim of scam": 0.5729632945389436}, {"bank": "CBA", "half": "2024 HY1", "Fraud/forgery by a third party": 0.0189790165988098, "Fraud/forgery by financial firm": 0.0032571249608518, "Other scam/fraud-related issues": 0.4413404321954275, "Victim of scam": 0.5364234262449108}, {"bank": "CBA", "half": "2024 HY2", "Fraud/forgery by a third party": 0.0349713055954089, "Fraud/forgery by financial firm": 0.0042144906743185, "Other scam/fraud-related issues": 0.4941714490674319, "Victim of scam": 0.4666427546628407}, {"bank": "CBA", "half": "2025 HY1", "Fraud/forgery by a third party": 0.0428889338458426, "Fraud/forgery by financial firm": 0.0035403601051992, "Other scam/fraud-related issues": 0.4876593162047339, "Victim of scam": 0.4659113898442241}, {"bank": "CBA", "half": "2025 HY2", "Fraud/forgery by a third party": 0.0414070351758793, "Fraud/forgery by financial firm": 0.0037185929648241, "Other scam/fraud-related issues": 0.4683417085427135, "Victim of scam": 0.4865326633165829}, {"bank": "CBA", "half": "2026 HY1", "Fraud/forgery by a third party": 0.0738454503886602, "Fraud/forgery by financial firm": 0.0045724737082761, "Other scam/fraud-related issues": 0.4663923182441701, "Victim of scam": 0.4551897576588934}, {"bank": "NAB", "half": "2023 HY2", "Fraud/forgery by a third party": 0.3197980006183654, "Fraud/forgery by financial firm": 0.0, "Other scam/fraud-related issues": 0.6071318149026075, "Victim of scam": 0.0730701844790271}, {"bank": "NAB", "half": "2024 HY1", "Fraud/forgery by a third party": 0.2760717543326239, "Fraud/forgery by financial firm": 0.0, "Other scam/fraud-related issues": 0.6656531873923178, "Victim of scam": 0.0582750582750582}, {"bank": "NAB", "half": "2024 HY2", "Fraud/forgery by a third party": 0.2932630496271535, "Fraud/forgery by financial firm": 0.0, "Other scam/fraud-related issues": 0.4488300334276163, "Victim of scam": 0.2579069169452301}, {"bank": "NAB", "half": "2025 HY1", "Fraud/forgery by a third party": 0.1717257123530904, "Fraud/forgery by financial firm": 0.0, "Other scam/fraud-related issues": 0.4220005073137736, "Victim of scam": 0.406273780333136}, {"bank": "NAB", "half": "2025 HY2", "Fraud/forgery by a third party": 0.0748376378190605, "Fraud/forgery by financial firm": 0.0, "Other scam/fraud-related issues": 0.4955444796858481, "Victim of scam": 0.4296178824950913}, {"bank": "NAB", "half": "2026 HY1", "Fraud/forgery by a third party": 0.0027254707631318, "Fraud/forgery by financial firm": 0.0, "Other scam/fraud-related issues": 0.5777172117608192, "Victim of scam": 0.4195573174760489}, {"bank": "Westpac", "half": "2023 HY2", "Fraud/forgery by a third party": 0.0, "Fraud/forgery by financial firm": 0.0, "Other scam/fraud-related issues": 1.0, "Victim of scam": 0.0}, {"bank": "Westpac", "half": "2024 HY1", "Fraud/forgery by a third party": 0.0, "Fraud/forgery by financial firm": 0.0, "Other scam/fraud-related issues": 1.0, "Victim of scam": 0.0}, {"bank": "Westpac", "half": "2024 HY2", "Fraud/forgery by a third party": 0.0, "Fraud/forgery by financial firm": 0.0, "Other scam/fraud-related issues": 1.0, "Victim of scam": 0.0}, {"bank": "Westpac", "half": "2025 HY1", "Fraud/forgery by a third party": 0.0, "Fraud/forgery by financial firm": 0.0, "Other scam/fraud-related issues": 1.0, "Victim of scam": 0.0}, {"bank": "Westpac", "half": "2025 HY2", "Fraud/forgery by a third party": 0.0, "Fraud/forgery by financial firm": 0.0, "Other scam/fraud-related issues": 1.0, "Victim of scam": 0.0}, {"bank": "Westpac", "half": "2026 HY1", "Fraud/forgery by a third party": 0.0, "Fraud/forgery by financial firm": 0.0, "Other scam/fraud-related issues": 0.9840700915969732, "Victim of scam": 0.0159299084030266}], "rem": {"half": ["2023 HY2", "2024 HY1", "2024 HY2", "2025 HY1", "2025 HY2", "2026 HY1"], "monetary_remedies": [15637.0, 13116.0, 9398.0, 9321.0, 10255.0, 9886.0], "amount_paid": [32426952.500000004, 27051497.94, 23457345.83, 19528804.82, 22235212.53, 17497194.65], "avg_remedy": [2073.73233356782, 2062.4807822506864, 2495.993384762716, 2095.140523548976, 2168.2313534861046, 1769.8962826218894]}, "esc": [{"bank": "Revolut", "tier": "Digital/neo", "escalation_rate": 0.2155217619297325, "idr_complaints_fy26": 1907.0, "afca_received_fy26": 411.0}, {"bank": "Bank Australia", "tier": "Other bank", "escalation_rate": 0.0330278402213384, "idr_complaints_fy26": 5783.0, "afca_received_fy26": 191.0}, {"bank": "ING", "tier": "Other bank", "escalation_rate": 0.0293201133144475, "idr_complaints_fy26": 49420.0, "afca_received_fy26": 1449.0}, {"bank": "CBA", "tier": "Major bank", "escalation_rate": 0.0244701759371078, "idr_complaints_fy26": 422310.0, "afca_received_fy26": 10334.0}, {"bank": "AMP Bank", "tier": "Other bank", "escalation_rate": 0.0239568599717114, "idr_complaints_fy26": 11312.0, "afca_received_fy26": 271.0}, {"bank": "Westpac", "tier": "Major bank", "escalation_rate": 0.0232014245816932, "idr_complaints_fy26": 365581.0, "afca_received_fy26": 8482.0}, {"bank": "NAB", "tier": "Major bank", "escalation_rate": 0.0179044574889298, "idr_complaints_fy26": 499317.0, "afca_received_fy26": 8940.0}, {"bank": "HSBC", "tier": "Other bank", "escalation_rate": 0.0163759628238589, "idr_complaints_fy26": 62836.0, "afca_received_fy26": 1029.0}, {"bank": "Macquarie", "tier": "Other bank", "escalation_rate": 0.0151635978432936, "idr_complaints_fy26": 84017.0, "afca_received_fy26": 1274.0}, {"bank": "Bendigo", "tier": "Other bank", "escalation_rate": 0.0148515394487161, "idr_complaints_fy26": 91169.0, "afca_received_fy26": 1354.0}, {"bank": "BOQ", "tier": "Other bank", "escalation_rate": 0.0146354023905044, "idr_complaints_fy26": 120393.0, "afca_received_fy26": 1762.0}, {"bank": "ANZ", "tier": "Major bank", "escalation_rate": 0.0115104577984435, "idr_complaints_fy26": 530561.0, "afca_received_fy26": 6107.0}, {"bank": "Norfina (ex-Suncorp Bank)", "tier": "Other bank", "escalation_rate": 0.0093155270914449, "idr_complaints_fy26": 82443.0, "afca_received_fy26": 768.0}], "banks": [{"bank": "ANZ", "tier": "Major bank", "share_of_bank_scam_complaints": 0.3164329964134333, "share_of_all_complaints": 0.2279973477137782, "idr_scam_remedies_fy26": 5686492.66}, {"bank": "Westpac", "tier": "Major bank", "share_of_bank_scam_complaints": 0.2012234019931671, "share_of_all_complaints": 0.1571006884685281, "idr_scam_remedies_fy26": 6275237.41}, {"bank": "NAB", "tier": "Major bank", "share_of_bank_scam_complaints": 0.1796827376986433, "share_of_all_complaints": 0.2145709007416689, "idr_scam_remedies_fy26": 5886085.930000001}, {"bank": "CBA", "tier": "Major bank", "share_of_bank_scam_complaints": 0.1325328532342893, "share_of_all_complaints": 0.1814787741899719, "idr_scam_remedies_fy26": 13158921.529999996}, {"bank": "Norfina (ex-Suncorp Bank)", "tier": "Other bank", "share_of_bank_scam_complaints": 0.0517713103018102, "share_of_all_complaints": 0.0354281323685062, "idr_scam_remedies_fy26": 43099.8}, {"bank": "Macquarie", "tier": "Other bank", "share_of_bank_scam_complaints": 0.0512113522632228, "share_of_all_complaints": 0.0361045255170819, "idr_scam_remedies_fy26": 4671550.27}, {"bank": "Bendigo", "tier": "Other bank", "share_of_bank_scam_complaints": 0.0271473327568364, "share_of_all_complaints": 0.0391779459736344, "idr_scam_remedies_fy26": 522592.07}, {"bank": "HSBC", "tier": "Other bank", "share_of_bank_scam_complaints": 0.0165081300236741, "share_of_all_complaints": 0.0270024395704602, "idr_scam_remedies_fy26": 186975.8}, {"bank": "ING", "tier": "Other bank", "share_of_bank_scam_complaints": 0.0099233070129428, "share_of_all_complaints": 0.0212371978415581, "idr_scam_remedies_fy26": 221704.41}, {"bank": "BOQ", "tier": "Other bank", "share_of_bank_scam_complaints": 0.0095476389617385, "share_of_all_complaints": 0.0517363407474445, "idr_scam_remedies_fy26": 437346.7}, {"bank": "Revolut", "tier": "Digital/neo", "share_of_bank_scam_complaints": 0.0023107129187281, "share_of_all_complaints": 0.0008194928426517, "idr_scam_remedies_fy26": 27609.72}, {"bank": "Bank Australia", "tier": "Other bank", "share_of_bank_scam_complaints": 0.0008789214782892, "share_of_all_complaints": 0.0024851217142397, "idr_scam_remedies_fy26": 15173.0}, {"bank": "AMP Bank", "tier": "Other bank", "share_of_bank_scam_complaints": 0.0008293049432245, "share_of_all_complaints": 0.0048610923104756, "idr_scam_remedies_fy26": 10250.0}], "ctrl": [{"control": "Holds & limits on first-time high-risk payments (crypto exchanges, new high-value payees)", "pool": "Investment", "avoided_P10": 38915468.41293141, "avoided_P50": 64835436.28606477, "avoided_P90": 90882337.46897742, "effort": 3, "friction": 4, "p_top3": 1.0}, {"control": "Confirmation of Payee on new payees", "pool": "Payment redirection", "avoided_P10": 17752106.84825789, "avoided_P50": 24229857.543792725, "avoided_P90": 30637894.386216227, "effort": 3, "friction": 1, "p_top3": 0.93945}, {"control": "Remote-access tool and session-risk detection in digital banking", "pool": "Remote access", "avoided_P10": 8933058.514673388, "avoided_P50": 12158773.560222838, "avoided_P90": 15376939.344364649, "effort": 2, "friction": 1, "p_top3": 0.631}, {"control": "Mule-account detection and blocking (receiving side)", "pool": "Other", "avoided_P10": 12531200.87054755, "avoided_P50": 21945047.31493908, "avoided_P90": 31226105.206939496, "effort": 4, "friction": 1, "p_top3": 0.4237}, {"control": "Real-time scam intelligence sharing and phishing-site takedown", "pool": "Phishing", "avoided_P10": 4342797.847718254, "avoided_P50": 6631178.881604928, "avoided_P90": 8859680.89549551, "effort": 2, "friction": 1, "p_top3": 0.00585}, {"control": "Behavioural scam-detection model with call-back (repeated payments to new beneficiaries)", "pool": "Romance", "avoided_P10": 6492125.151565756, "avoided_P50": 10766798.702454085, "avoided_P90": 15127876.129567768, "effort": 4, "friction": 2, "p_top3": 0.0}], "base": {"afcx_reports_with_loss": 199666, "afcx_mean_loss": 4218.544970100067, "idr_remedies_fy26": 39732407.18, "idr_avg_remedy": 1972.7127342237227, "scam_escalation_rate": 0.0369474032938217, "afca_closed_at_referral_share": 0.6514394863415645}, "ind": {"claims": {"P10": 209492.172, "P50": 255686.053, "P90": 311068.193}, "eligible_claims": {"P10": 122931.255, "P50": 155740.429, "P90": 195961.804}, "share_claims_eligible": {"P10": 0.749, "P50": 0.779, "P90": 0.814}, "gross_reimbursement": {"P10": 83358799.227, "P50": 108288352.215, "P90": 139762526.568}, "already_paid_today": {"P10": 10411267.84, "P50": 11486244.875, "P90": 12514721.177}, "incremental_reimbursement": {"P10": 71862496.533, "P50": 96789162.483, "P90": 128323638.561}, "ops_saving": {"P10": 11327612.181, "P50": 20542707.692, "P90": 32310385.076}, "afca_fee_saving": {"P10": 1303054.25, "P50": 2094666.269, "P90": 3114964.428}, "net_cost": {"P10": 50605231.792, "P50": 73576130.927, "P90": 102151435.918}, "share_of_loss_dollars_under_threshold": {"P10": 0.107, "P50": 0.128, "P90": 0.156}, "loss_dollars_above_threshold": {"P10": 557920653.665, "P50": 729929443.119, "P90": 949987534.036}}, "f": {"q1": {"combined_loss_2025": 2180000000.0, "investment_share_2025": 0.3835622710622711, "afcx_reports_with_loss_2025": 199666, "afcx_mean_loss_2025": 4218.544970100067, "crypto_share_scamwatch_payment_loss": 0.458948164964056}, "q2": {"all_complaints_change": 0.2179692129626709, "scam_fraud_change": -0.1040203687733563, "scam_fraud_fy26": 178091.0, "bank_share_of_scam_fraud_fy26": 0.7921905093463454}, "q3": {"max_half_on_half_share_swing": {"ANZ": 0.82, "CBA": 0.07, "NAB": 0.22, "Westpac": 0.02}, "westpac_victim_of_scam_share_2026H1": 0.01592990840302668}, "q4": {"idr_scam_remedies_paid_fy26": 39732407.18, "idr_scam_remedies_count_fy26": 20141.0, "idr_scam_avg_remedy_fy26": 1972.7127342237227, "paid_vs_afcx_loss_ratio": 0.047171325157307376, "paid_change_2023H2_to_2026H1": -0.46041199369567654}, "q5": {"n_firm_halves": 231, "n_firms": 54, "median_diff_pp": -0.3377777777777702, "mean_diff_pp": -1.3552681514108846, "share_gap_worse_than_5pp": 0.1038961038961039, "share_scam_faster": 0.2554112554112554, "wilcoxon_p": 9.061287321191289e-12}, "q6": {"escalation": {"Revolut": 0.2155, "Bank Australia": 0.033, "ING": 0.0293, "CBA": 0.0245, "AMP Bank": 0.024, "Westpac": 0.0232, "NAB": 0.0179, "HSBC": 0.0164, "Macquarie": 0.0152, "Bendigo": 0.0149, "BOQ": 0.0146, "ANZ": 0.0115, "Norfina (ex-Suncorp Bank)": 0.0093}, "major_bank_escalation": 0.018628879687132963, "spearman_p30_vs_escalation_rho": -0.1258741258741259, "spearman_p": 0.696683109395766, "n_banks_in_test": 12}}};
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const fm = x => x>=1e9 ? '$'+(x/1e9).toFixed(2)+'b' : '$'+(x/1e6).toFixed(1)+'m';
+function layout(extra){
+  return Object.assign({margin:{l:48,r:16,t:8,b:40},paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',
+    font:{family:css('--body'),color:css('--ink-2'),size:12},
+    xaxis:{gridcolor:css('--line'),zeroline:false,linecolor:css('--line')},
+    yaxis:{gridcolor:css('--line'),zeroline:false},showlegend:false,hoverlabel:{font:{family:css('--body')}}},extra||{});
+}
+const cfg={displayModeBar:false,responsive:true};
+
+function tiles(el, items){
+  document.getElementById(el).innerHTML = items.map((t,i)=>`<div class="tile${t.key?' key':''}"><span class="v">${t.v}</span><span class="l">${t.l}</span></div>`).join('');
+}
+tiles('tiles',[
+  {v:'$2.18b',l:'scam losses reported in 2025 (+7.8%)'},
+  {v:'$842.3m',l:'lost by 199,666 bank-reported scam victims'},
+  {v:'$39.7m',l:'returned via IDR monetary remedies in FY26, about 4.7% of bank-reported losses'},
+  {v:fm(D.ind.net_cost.P50),l:`net cost of a $3,000 auto-refund in FY2028 (P50; P10 ${fm(D.ind.net_cost.P10)} – P90 ${fm(D.ind.net_cost.P90)})`,key:true}
+]);
+
+function charts(){
+  const A=css('--accent'), O=css('--accent-2'), M=css('--muted');
+  Plotly.react('c_year',[{type:'bar',x:D.years.year.map(String),y:D.years.loss.map(v=>v/1e9),marker:{color:A},
+    text:D.years.loss.map(v=>'$'+(v/1e9).toFixed(1)+'b'),textposition:'outside',cliponaxis:false,
+    hovertemplate:'%{x}: $%{y:.2f}b<extra></extra>'}],layout({yaxis:{gridcolor:css('--line'),title:'$ billion'}}),cfg);
+  const ti=D.types.type.map((t,i)=>[t,D.types.loss_2025[i]]).sort((a,b)=>a[1]-b[1]);
+  Plotly.react('c_type',[{type:'bar',orientation:'h',y:ti.map(t=>t[0]),x:ti.map(t=>t[1]/1e6),
+    marker:{color:ti.map(t=>t[0]==='Investment'?A:M)},text:ti.map(t=>'$'+(t[1]/1e6).toFixed(0)+'m'),textposition:'outside',cliponaxis:false,
+    hovertemplate:'%{y}: $%{x:.1f}m<extra></extra>'}],layout({margin:{l:130,r:50,t:8,b:30}}),cfg);
+  Plotly.react('c_trend',[
+    {x:D.trend.half,y:D.trend.all_complaints_idx,mode:'lines+markers',name:'All IDR complaints',line:{color:M,width:2},
+     customdata:D.trend.all_complaints,hovertemplate:'All complaints %{x}: %{customdata:,} (index %{y:.0f})<extra></extra>'},
+    {x:D.trend.half,y:D.trend.scam_fraud_idx,mode:'lines+markers',name:'Scam & fraud complaints',line:{color:A,width:2},
+     customdata:D.trend.scam_fraud,hovertemplate:'Scam & fraud %{x}: %{customdata:,} (index %{y:.0f})<extra></extra>'}],
+    layout({showlegend:true,legend:{orientation:'h',y:-0.18}}),cfg);
+  Plotly.react('c_rem',[{type:'bar',x:D.rem.half,y:D.rem.amount_paid.map(v=>v/1e6),marker:{color:A},
+    text:D.rem.amount_paid.map(v=>'$'+(v/1e6).toFixed(1)+'m'),textposition:'outside',cliponaxis:false,
+    customdata:D.rem.monetary_remedies,hovertemplate:'%{x}: $%{y:.1f}m from %{customdata:,} remedies<extra></extra>'}],layout(),cfg);
+  const issues=['Victim of scam','Other scam/fraud-related issues','Fraud/forgery by a third party','Fraud/forgery by financial firm'];
+  const cols=[A,O,'#1baf7a','#eda100']; const banks=['CBA','NAB','ANZ','Westpac']; const tr=[];
+  banks.forEach((b,bi)=>{ const rows=D.mix.filter(r=>r.bank===b);
+    issues.forEach((is,ii)=>tr.push({type:'bar',x:rows.map(r=>r.half.slice(2,4)+'H'+r.half.slice(-1)),y:rows.map(r=>r[is]||0),name:is,legendgroup:is,
+      showlegend:bi===0,marker:{color:cols[ii],line:{color:css('--card'),width:1}},xaxis:'x'+(bi?bi+1:''),yaxis:'y'+(bi?bi+1:''),
+      hovertemplate:b+' %{x}<br>'+is+': %{y:.0%}<extra></extra>'}));});
+  const L=layout({barmode:'stack',showlegend:true,legend:{orientation:'h',y:-0.22},grid:{rows:1,columns:4,pattern:'independent'},
+    margin:{l:44,r:8,t:28,b:40},annotations:banks.map((b,i)=>({text:'<b>'+b+'</b>',xref:'x'+(i?i+1:'')+' domain',yref:'paper',x:0.5,y:1.08,showarrow:false,font:{color:css('--ink'),size:13}}))});
+  banks.forEach((b,i)=>{L['xaxis'+(i?i+1:'')]={tickfont:{size:10},tickangle:0,gridcolor:'rgba(0,0,0,0)'};L['yaxis'+(i?i+1:'')]={range:[0,1],tickformat:'.0%',gridcolor:css('--line'),showticklabels:i===0};});
+  Plotly.react('c_mix',tr,L,cfg);
+  const e=[...D.esc].sort((a,b)=>a.escalation_rate-b.escalation_rate);
+  Plotly.react('c_esc',[{type:'bar',orientation:'h',y:e.map(r=>r.bank),x:e.map(r=>Math.min(r.escalation_rate*100,4.6)),
+    marker:{color:e.map(r=>r.bank==='Revolut'?O:(r.tier==='Major bank'?A:M))},
+    text:e.map(r=>(r.escalation_rate*100).toFixed(1)+'%'+(r.escalation_rate*100>4.6?'  (bar cut)':'')),
+    textposition:'outside',cliponaxis:false,customdata:e.map(r=>[r.afca_received_fy26,r.idr_complaints_fy26,(r.escalation_rate*100).toFixed(2)]),
+    hovertemplate:'%{y}: %{customdata[0]:,} AFCA / %{customdata[1]:,} IDR = %{customdata[2]}%<extra></extra>'}],
+    layout({margin:{l:170,r:90,t:8,b:30},xaxis:{range:[0,5],gridcolor:css('--line'),ticksuffix:'%'}}),cfg);
+}
+
+/* ---------- Monte Carlo (mirrors src/04_spf_model.py) ---------- */
+function erf(x){const s=Math.sign(x);x=Math.abs(x);const t=1/(1+0.3275911*x);
+  const y=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x);return s*y;}
+const Phi=z=>0.5*(1+erf(z/Math.SQRT2));
+let seed=20261122; const rnd=()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};
+const U=(a,b)=>a+(b-a)*rnd();
+function T(a,c,b){const u=rnd(),f=(c-a)/(b-a);return u<f?a+Math.sqrt(u*(b-a)*(c-a)):b-Math.sqrt((1-u)*(b-a)*(b-c));}
+const FEE_REF=96.19*1.035, FEE_CM=(1141.48+2238.07)/2*1.035;
+function q(a,p){const s=[...a].sort((x,y)=>x-y);return s[Math.floor(p*(s.length-1))];}
+function runModel(){
+  seed=20261122;
+  const thr=+thr_.value, gc=+g_.value/100, umax=+u_.value, vmode=+v_.value/100, mhi=+m_.value, hmode=+h_.value;
+  const sc=scope.value, al=alloc.value; let share=1, cur=D.base.idr_remedies_fy26;
+  if(sc!=='Banking industry'){const r=D.banks.find(b=>b.bank===sc);share=al==='scam'?r.share_of_bank_scam_complaints:r.share_of_all_complaints;cur=r.idr_scam_remedies_fy26;}
+  const N=10000, net=[], elig=[], dshare=[], above=[], eshare=[]; const B=D.base;
+  for(let i=0;i<N;i++){
+    const growth=T(gc-0.12,gc,gc+0.13), uptake=T(1,Math.min(1.15,(1+umax)/2),umax), mean=B.afcx_mean_loss*U(0.85,1.15),
+      med=U(400,Math.max(mhi,450)), ver=T(Math.max(0.3,vmode-0.2),vmode,Math.min(0.99,vmode+0.15)),
+      hs=T(Math.max(0.5,hmode-1.5),hmode,hmode+1.5), hv=U(0.25,0.75), cph=U(55,80), esc=B.scam_escalation_rate*U(0.3,0.8), rmed=U(400,650);
+    const mu=Math.log(med), sg=Math.sqrt(2*Math.log(Math.max(mean/med,1.0001)));
+    const claims=B.afcx_reports_with_loss*share*Math.pow(1+growth,2.5)*uptake, verified=claims*ver;
+    const pS=Phi((Math.log(thr)-mu)/sg), pe=Math.exp(mu+sg*sg/2)*Phi((Math.log(thr)-mu-sg*sg)/sg);
+    const e=verified*pS, gross=verified*pe;
+    const rmu=Math.log(rmed), rsg=Math.sqrt(2*Math.log(Math.max(B.idr_avg_remedy/rmed,1.0001)));
+    const already=cur*Phi((Math.log(thr)-rmu-rsg*rsg)/rsg);
+    const ops=e*(hs-hv)*cph, fee=B.afca_closed_at_referral_share*FEE_REF+(1-B.afca_closed_at_referral_share)*FEE_CM;
+    net.push(gross-already-ops-e*esc*fee); elig.push(e); eshare.push(pS); dshare.push(pe/mean); above.push(verified*(mean-pe));
+  }
+  tiles('mtiles',[
+    {v:Math.round(q(elig,.5)).toLocaleString('en-AU'),l:`claims refunded automatically (P50), ${(100*q(eshare,.5)).toFixed(0)}% of verified claims`},
+    {v:fm(q(net,.5)),l:`net extra cost (P50); P10 ${fm(q(net,.1))} – P90 ${fm(q(net,.9))}`,key:true},
+    {v:(100*q(dshare,.5)).toFixed(0)+'%',l:`of loss dollars covered; ${fm(q(above,.5))} stays above the threshold`}
+  ]);
+  Plotly.react('c_hist',[{type:'histogram',x:net.map(v=>v/1e6),nbinsx:60,marker:{color:css('--accent'),line:{color:css('--card'),width:0.5}},
+    hovertemplate:'$%{x}m: %{y} simulations<extra></extra>'}],
+    layout({xaxis:{title:'$ million',gridcolor:css('--line')},yaxis:{showticklabels:false,gridcolor:css('--line')},
+      shapes:[.1,.5,.9].map(p=>({type:'line',x0:q(net,p)/1e6,x1:q(net,p)/1e6,yref:'paper',y0:0,y1:1,line:{color:css('--ink'),width:1}})),
+      annotations:[.1,.5,.9].map(p=>({x:q(net,p)/1e6,yref:'paper',y:1.02,text:'P'+Math.round(p*100)+' '+fm(q(net,p)),showarrow:false,font:{size:11,color:css('--ink')}})),
+      margin:{l:20,r:16,t:24,b:40}}),cfg);
+}
+const thr_=document.getElementById('thr'), g_=document.getElementById('g'), u_=document.getElementById('u'), v_=document.getElementById('v'), m_=document.getElementById('m'), h_=document.getElementById('h');
+const scope=document.getElementById('scope'), alloc=document.getElementById('alloc');
+scope.innerHTML=['Banking industry',...D.banks.map(b=>b.bank)].map(b=>`<option>${b}</option>`).join('');
+function labels(){
+  thr_v.textContent='$'+(+thr_.value).toLocaleString('en-AU'); g_v.textContent=(+g_.value>0?'+':'')+g_.value+'% a year';
+  u_v.textContent='×'+(+u_.value).toFixed(2); v_v.textContent=v_.value+'%'; m_v.textContent='$400 – $'+(+m_.value).toLocaleString('en-AU'); h_v.textContent=h_.value+' h';
+}
+[thr_,g_,u_,v_,m_,h_,scope,alloc].forEach(el=>el.addEventListener('input',()=>{labels();runModel();}));
+
+function ctable(){
+  const max=Math.max(...D.ctrl.map(c=>c.avoided_P90));
+  document.querySelector('#ctab tbody').innerHTML=D.ctrl.map((c,i)=>`<tr><td>${c.control}${i<2?' <span class="pill top">priority</span>':''}</td><td>${c.pool}</td>
+    <td class="num">${(c.avoided_P10/1e6).toFixed(1)} – <b>${(c.avoided_P50/1e6).toFixed(1)}</b> – ${(c.avoided_P90/1e6).toFixed(1)}</td>
+    <td style="min-width:120px"><div class="bar" style="width:${100*c.avoided_P50/max}%"></div></td>
+    <td class="num">${c.effort}</td><td class="num">${c.friction}</td><td class="num">${Math.round(c.p_top3*100)}%</td></tr>`).join('');
+}
+labels(); charts(); runModel(); ctable();
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{charts();runModel();});
+new MutationObserver(()=>{charts();runModel();}).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+</script>
+</body>
+</html>

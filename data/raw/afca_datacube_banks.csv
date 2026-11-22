@@ -1,0 +1,41 @@
+fy,firm,complaints_received,closed_at_referral,referral_resolution_rate_pct,non_response_at_referral,non_response_rate_pct,complaints_accepted,closed_after_referral,resolved_by_agreement,in_favour_complainant,in_favour_firm,discontinued,resolved_by_assessment,outside_afca_rules
+FY2026,Commonwealth Bank of Australia,9492,6169,63.55,0,0.00,3538,3144,1616,79,279,524,34,608
+FY2026,National Australia Bank Limited,8940,5754,65.39,3,0.10,3045,2476,1520,72,147,365,20,341
+FY2026,Australia and New Zealand Banking Group Limited,6107,4309,62.58,362,14.05,2577,3087,2051,61,250,396,12,296
+FY2026,Westpac Banking Corporation,5551,3623,65.39,9,0.47,1918,1735,874,61,180,318,18,275
+FY2026,St George Bank,1974,1347,64.70,7,0.95,735,638,324,17,64,112,7,99
+FY2026,Bank of Queensland Limited,1762,1149,73.80,5,1.23,408,280,142,9,21,64,3,37
+FY2026,ING Bank (Australia) Limited,1449,794,55.95,2,0.32,625,582,264,17,64,139,8,89
+FY2026,Bendigo and Adelaide Bank Limited,1354,764,57.97,0,0.00,554,499,183,18,55,136,7,101
+FY2026,Macquarie Bank Limited,1274,796,61.80,0,0.00,492,551,334,10,56,80,7,64
+FY2026,HSBC Bank Australia Limited,1029,660,62.62,3,0.76,394,382,226,16,45,62,1,30
+FY2026,Bank of Western Australia Limited,842,492,57.41,0,0.00,365,307,135,19,40,62,3,46
+FY2026,Norfina Limited,768,483,60.30,0,0.00,318,261,129,9,20,52,3,46
+FY2026,Bank of Melbourne,624,406,64.24,2,0.88,226,223,124,9,27,38,2,22
+FY2026,Citigroup Pty Limited,590,579,72.74,14,6.45,217,455,369,5,25,24,3,29
+FY2026,Heritage and People's Choice Limited,491,333,66.47,3,1.79,168,168,100,4,8,40,0,16
+FY2026,Revolut Payments Australia Pty Ltd,411,129,31.23,37,13.03,284,254,111,9,40,78,1,15
+FY2026,BankSA (a division of Westpac Banking Corporation),333,240,71.86,0,0.00,94,84,38,2,10,23,1,11
+FY2026,AMP Bank Limited,271,180,67.42,0,0.00,87,85,50,3,10,11,1,12
+FY2026,Bank Australia Limited,191,100,52.36,2,2.20,91,63,29,3,5,19,1,6
+FY2025,Commonwealth Bank of Australia,8957,5876,66.58,4,0.14,,,,,,,,
+FY2025,Australia and New Zealand Banking Group Limited,6875,3411,55.68,23,0.85,,,,,,,,
+FY2025,National Australia Bank Limited,6074,4001,65.29,10,0.47,,,,,,,,
+FY2025,Westpac Banking Corporation,4195,2754,66.36,9,0.64,,,,,,,,
+FY2025,Citigroup Pty Limited,2278,1379,60.83,27,3.04,,,,,,,,
+FY2025,HSBC Bank Australia Limited,1245,761,58.05,25,4.55,,,,,,,,
+FY2025,Macquarie Bank Limited,1168,584,50.92,2,0.36,,,,,,,,
+FY2025,Bendigo and Adelaide Bank Limited,1126,604,52.80,5,0.93,,,,,,,,
+FY2025,ING Bank (Australia) Limited,1108,658,57.87,1,0.21,,,,,,,,
+FY2025,Bank of Western Australia Limited,761,475,62.09,1,0.34,,,,,,,,
+FY2025,Norfina Limited,635,408,66.67,0,0.00,,,,,,,,
+FY2025,Bank of Melbourne,611,407,66.39,3,1.46,,,,,,,,
+FY2025,Bank of Queensland Limited,502,298,65.64,0,0.00,,,,,,,,
+FY2025,Members Equity Proprietary Limited,476,383,79.63,2,2.04,,,,,,,,
+FY2025,Heritage and People's Choice Limited,364,209,59.38,1,0.70,,,,,,,,
+FY2025,BankSA (a division of Westpac Banking Corporation),292,197,69.12,1,1.14,,,,,,,,
+FY2025,Revolut Payments Australia Pty Ltd,211,75,37.69,12,9.68,,,,,,,,
+FY2025,Bank Australia Limited,106,54,50.47,2,3.77,,,,,,,,
+FY2025,MyState Bank Limited,59,26,38.24,11,26.19,,,,,,,,
+FY2025,Rabobank Australia Limited,58,35,56.45,2,7.41,,,,,,,,
+FY2025,Tyro Payments Limited,49,28,58.33,2,10.00,,,,,,,,

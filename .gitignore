@@ -1,0 +1,8 @@
+# Large source file - fetched by src/00_download.py
+data/raw/idr_data_file_20261116.xlsx
+# Rebuilt by run_all.py
+data/processed/spf.duckdb
+data/processed/*.duckdb.wal
+__pycache__/
+.DS_Store
+.venv/

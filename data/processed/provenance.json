@@ -1,0 +1,47 @@
+{
+  "built_at_utc": "2026-11-21T14:03:23+00:00",
+  "sources": {
+    "idr_firm": {
+      "file": "idr_data_file_20261116.xlsx",
+      "sheet": "Firm-level Metrics",
+      "rows": 9757
+    },
+    "idr_product": {
+      "file": "idr_data_file_20261116.xlsx",
+      "sheet": "Product Dimension",
+      "rows": 34748
+    },
+    "idr_issue": {
+      "file": "idr_data_file_20261116.xlsx",
+      "sheet": "Issue Dimension",
+      "rows": 83907
+    },
+    "idr_outcome": {
+      "file": "idr_data_file_20261116.xlsx",
+      "sheet": "Outcome Dimension",
+      "rows": 27290
+    },
+    "idr_product_issue": {
+      "file": "idr_data_file_20261116.xlsx",
+      "sheet": "Product & Issue Relationship",
+      "rows": 241222
+    },
+    "idr_product_outcome": {
+      "file": "idr_data_file_20261116.xlsx",
+      "sheet": "Product & Outcome Relationship",
+      "rows": 86555
+    },
+    "idr_issue_outcome": {
+      "file": "idr_data_file_20261116.xlsx",
+      "sheet": "Issue & Outcome Relationship",
+      "rows": 192021
+    },
+    "idr_file_sha256": "dbbb8f66c07d564144129357c11764eb2d168f34287765eb93c35de17e5ee0a3",
+    "afca_banks": {
+      "file": "afca_datacube_banks.csv",
+      "rows": 40,
+      "sha256": "addc6a2c8302073f846ef1a9bfde95cb0be5a26397a13729d468eef57f9dbade",
+      "method": "Transcribed from AFCA Datacube 'Compare firms' table, Primary business = Bank, FY2025 and FY2026"
+    }
+  }
+}

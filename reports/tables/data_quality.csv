@@ -1,0 +1,29 @@
+check,status,detail
+idr_firm: half-years,PASS,"2023 HY2, 2024 HY1, 2024 HY2, 2025 HY1, 2025 HY2, 2026 HY1"
+idr_issue: half-years,PASS,"2023 HY2, 2024 HY1, 2024 HY2, 2025 HY1, 2025 HY2, 2026 HY1"
+idr_outcome: half-years,PASS,"2023 HY2, 2024 HY1, 2024 HY2, 2025 HY1, 2025 HY2, 2026 HY1"
+idr_issue_outcome: half-years,PASS,"2023 HY2, 2024 HY1, 2024 HY2, 2025 HY1, 2025 HY2, 2026 HY1"
+"idr_firm: unique (firm_name, acn, half)",PASS,0 duplicate keys
+"idr_issue: unique (firm_name, acn, half, issue_category, issue)",PASS,0 duplicate keys
+"idr_issue_outcome: unique (firm_name, acn, half, issue, outcome)",PASS,0 duplicate keys
+"idr_issue: % in [0,1]",PASS,0 values outside range
+idr_issue: cumulative % non-decreasing,PASS,0 rows where a longer window shows a smaller %
+idr_issue: closed <= complaints,PASS,0 rows violate
+issue rows / firm total,WARN,"ratio = 1.151; issues are multi-select, so scam counts are not added to other issues"
+victim-of-scam outcomes / complaints,WARN,ratio = 1.13; rates use outcome count / complaints
+bank coverage: CBA,PASS,6/6 half-years
+bank coverage: Westpac,PASS,6/6 half-years
+bank coverage: NAB,PASS,6/6 half-years
+bank coverage: ANZ,PASS,6/6 half-years
+bank coverage: Macquarie,PASS,6/6 half-years
+bank coverage: ING,PASS,6/6 half-years
+bank coverage: BOQ,PASS,6/6 half-years
+bank coverage: Bendigo,PASS,6/6 half-years
+bank coverage: HSBC,PASS,6/6 half-years
+bank coverage: Norfina (ex-Suncorp Bank),PASS,6/6 half-years
+bank coverage: AMP Bank,PASS,6/6 half-years
+bank coverage: Bank Australia,PASS,6/6 half-years
+bank coverage: Revolut,PASS,6/6 half-years
+monetary remedy: median > mean,WARN,1907 rows (small cells where one large-but-not-largest payment dominates)
+afca: closed at referral <= received,PASS,0 rows violate
+afca FY26: closed total vs received,PASS,"closed 43,581 vs received 43,453 (closures include complaints received in earlier years)"
